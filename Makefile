@@ -6,9 +6,14 @@
 
 .PHONY: build
 
-build: boot.ss
-	./build.sh make.ss
+build: boot kernel
 	@echo "build success"
+
+kernel: kernel.ss
+	./build.sh compile.ss kernel
+
+boot: boot.ss
+	./build.sh compile.ss boot
 
 run: image
 	bochs -q -f ./bochsrc

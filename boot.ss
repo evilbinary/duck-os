@@ -3,9 +3,22 @@
 ;作者:evilbinary on 12/24/16.
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(block all
-    (block main
-        (set reg0 reg1)
+(begin
+    ($asm 
+        (block main
+            (set reg0 reg1)
+            (set reg4 hello)
+            ($asm ".loop lodsb") 
+            ($asm "or eax, eax")
+            ($asm "jz halt")            
+            ($asm "int 0x10 ")             
+            ($asm "jmp .loop")
+            ($asm "halt: hlt")
+            (ret)
         )
+        (block data
+          (data hello "hello")
+        )
+    )
 )
 

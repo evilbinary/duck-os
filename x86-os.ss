@@ -43,9 +43,10 @@
         )
         ; (asm "section .text")
         (asm "_start:")
+        (asm "push ebp")
 
           )
-      (asm "ret")
+      (asm "")
     )
   )
 

@@ -23,9 +23,23 @@
         (duck-compile-exp `(begin ,@code ) name)
     ))
 
-(option-set 'need-primitive' #f)
-(option-set 'need-boot' #t)
-(compile-file 'boot)
+(define file-name "boot")
 
-(option-set 'need-boot' #f)
-(compile-file 'kernel)
+(define (process-args)
+  (if (> (length (command-line)) 0)
+     (set! file-name (list-ref (command-line) 0))
+  ))
+
+(if (equal? file-name "boot")
+    (begin 
+        (option-set 'need-primitive' #f)
+        (option-set 'need-boot' #t)
+        (compile-file 'boot)
+    )
+    (begin 
+        (option-set 'need-boot' #f)
+        (compile-file 'kernel)
+    )
+)
+
+
