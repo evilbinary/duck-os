@@ -26,19 +26,21 @@
 (define file-name "boot")
 
 (define (process-args)
-  (if (> (length (command-line)) 0)
-     (set! file-name (list-ref (command-line) 0))
+  (if (>= (length (command-line)) 1)
+     (set! file-name (list-ref (command-line) 1))
   ))
+
+(process-args)
+(option-set 'need-primitive' #f)
 
 (if (equal? file-name "boot")
     (begin 
-        (option-set 'need-primitive' #f)
         (option-set 'need-boot' #t)
         (compile-file 'boot)
     )
     (begin 
         (option-set 'need-boot' #f)
-        (compile-file 'kernel)
+        (compile-file file-name)
     )
 )
 

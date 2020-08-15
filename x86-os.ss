@@ -58,6 +58,14 @@
     )
   )
 
+  (define (gen-define)
+    (let-values ([(keyvec valvec) (hashtable-entries (get-asm-data-define))])
+        (vector-for-each
+          (lambda (key val)
+              (data key val))
+          keyvec valvec))
+)
+
   (define (sdata arg)
     (if (equal? arg 'end)
       (begin 
@@ -68,7 +76,7 @@
         
         ))
       (if (option-get 'need-boot)
-        '()
+        (gen-define)
         ($sdata arg)
       ))
   )

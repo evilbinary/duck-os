@@ -7,3 +7,5 @@
 .#*.scm
 
 build/**
+
+*.log

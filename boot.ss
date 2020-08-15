@@ -4,21 +4,21 @@
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (begin
+    (define add
+        (lambda (a b)
+        (+ a b)))
     ($asm 
-        (block main
-            (set reg0 reg1)
-            (set reg4 hello)
-            ($asm ".loop lodsb") 
-            ($asm "or eax, eax")
-            ($asm "jz halt")            
-            ($asm "int 0x10 ")             
-            ($asm "jmp .loop")
-            ($asm "halt: hlt")
-            (ret)
-        )
-        (block data
-          (data hello "hello")
-        )
+        (set reg0 reg1)
+        (set reg4 hello)
+        (asm ".loop lodsb") 
+        (asm "or eax, eax")
+        (asm "jz halt")            
+        (asm "int 0x10 ")             
+        (asm "jmp .loop")
+        (asm "halt: hlt")
+        (ret)
+        (data hello "hello")
     )
+    
 )
 
