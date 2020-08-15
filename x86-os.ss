@@ -22,61 +22,55 @@
     
   )
 
-(import 
-    (rename (scheme) (div div2) )
-    (common)
-    (trace)
-    (type)
-    (options)
-    (rename (x86) 
-        (stext $stext)
-        (sdata $sdata)
-        (asm-compile-exp $asm-comile-exp)
-        )
-    )
-
-(define (stext arg)
-  (if (equal? arg 'start)
-    (begin 
-      (if need-boot
-        (asm "org 7c00h")
+  (import 
+      (rename (scheme) (div div2) )
+      (common)
+      (trace)
+      (type)
+      (options)
+      (rename (x86) 
+          (stext $stext)
+          (sdata $sdata)
+          (asm-compile-exp $asm-comile-exp)
+          )
       )
-      ; (asm "section .text")
-      (asm "_start:")
 
-        )
-    (asm "ret")
-  )
-)
-
-
-(define (asm-compile-exp exp name)
-  (let ((asm (format "`which  nasm` ~a.s -f bin -o ~a" name name)))
-      ;;(printf "~a\n" asm)
-      (system asm)
-  )
-)
-
-
-(define (gen-define)
-  ;;(asm "section .data")
-  (let-values ([(keyvec valvec) (hashtable-entries (get-asm-data-define))])
-      (vector-for-each
-        (lambda (key val)
-            (data key val))
-        keyvec valvec))
-)
-
-(define (sdata arg)
-  ;;($sdata arg)
-  (gen-define)
-  (if (equal? arg 'end)
-    (if need-boot
+  (define (stext arg)
+    (if (equal? arg 'start)
       (begin 
-        (asm "times 510-($-$$)  db 0")
-        (asm "dw 0xaa55"))
-    ))
-)
+        (if (option-get 'need-boot)
+          (asm "org 7c00h")
+        )
+        ; (asm "section .text")
+        (asm "_start:")
+
+          )
+      (asm "ret")
+    )
+  )
+
+
+  (define (asm-compile-exp exp name)
+    (let ((asm (format "`which  nasm` ~a.s -f bin -o ~a" name name)))
+        ;;(printf "~a\n" asm)
+        (system asm)
+    )
+  )
+
+  (define (sdata arg)
+    (if (equal? arg 'end)
+      (begin 
+        (if (option-get 'need-boot)
+          (begin 
+            (asm "times 510-($-$$)  db 0")
+            (asm "dw 0xaa55"))
+        
+        ))
+      (if (option-get 'need-boot)
+        '()
+        ($sdata arg)
+      ))
+  )
 
 
 

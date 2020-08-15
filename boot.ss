@@ -4,9 +4,8 @@
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (block all
-    (block main 
+    (block main
         (set reg0 reg1)
-        
         )
 )
 

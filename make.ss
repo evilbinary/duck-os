@@ -4,6 +4,7 @@
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (import (scheme) (duck)
+        (options)
         (x86-os))
 
 (define (read-file name)
@@ -17,7 +18,14 @@
 
 (define (compile-file name)
     (let ((code (read-file (format "../~a.ss" name))))
-        (duck-compile-exp `,code name)
+        (printf "compile ~a\n   ===>" name)
+        (pretty-print code )
+        (duck-compile-exp `(begin ,@code ) name)
     ))
 
+(option-set 'need-primitive' #f)
+(option-set 'need-boot' #t)
 (compile-file 'boot)
+
+(option-set 'need-boot' #f)
+(compile-file 'kernel)
