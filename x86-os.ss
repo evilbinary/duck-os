@@ -31,6 +31,7 @@
       (rename (x86) 
           (stext $stext)
           (sdata $sdata)
+          (ret $ret)
           (asm-compile-exp $asm-comile-exp)
           )
       )
@@ -40,16 +41,18 @@
       (begin 
         (if (option-get 'need-boot)
           (asm "org 7c00h")
+
         )
         ; (asm "section .text")
         (asm "_start:")
-        (asm "push ebp")
-
-          )
+      )
       (asm "")
     )
   )
 
+(define (ret)
+  (asm "ret")
+)
 
   (define (asm-compile-exp exp name)
     (let ((asm (format "`which  nasm` ~a.s -f bin -o ~a" name name)))
