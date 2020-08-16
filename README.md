@@ -14,8 +14,8 @@
 
 ### 目录结构
 ```
-boot.ss    加载loader到内存中
-loader.ss 进入保护模式，加载内核到内存中
+boot.ss    加载loader到内存中，跳转到loader
+loader.ss 加载内核到内存中，进入保护模式，跳转到内核
 ```
 
 ### BIOS 基本功能
@@ -85,10 +85,10 @@ AL	Actual Sectors Read Count
 
 
 # 参考
-https://en.wikipedia.org/wiki/INT_10H
-https://en.wikipedia.org/wiki/INT_13H
-https://stanislavs.org/helppc/int_13-1.html
-https://baike.baidu.com/item/INT10H/22788179?fr=aladdin
+https://en.wikipedia.org/wiki/INT_10H   
+https://en.wikipedia.org/wiki/INT_13H   
+https://stanislavs.org/helppc/int_13-1.html 
+https://baike.baidu.com/item/INT10H/22788179?fr=aladdin 
 
 
 
