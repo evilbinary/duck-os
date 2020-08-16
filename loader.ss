@@ -8,15 +8,15 @@
     ;     (lambda (a b)
     ;     (+ a b)))
     ($asm
-        (call cls)
+        (asm "org 0x200")
 
+        (call cls)
+        
         (asm "mov dx,0x0000")
         (call set-cursor)
 
-        (asm "mov al,0x61")
-        (call print-char)
-        ; (asm "mov si,boot")
-        ; (asm "call print.string")
+        (asm "mov si,boot")
+        (asm "call print.string")
 
         (asm "jmp $")
         
