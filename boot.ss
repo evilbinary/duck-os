@@ -20,7 +20,7 @@
         (asm "mov ah,0eh")
         (asm "mov bx,0007h")
         (asm "int 0x10")
-        (asm "ret")
+        (ret)
 
         (label print-string)
         (note ";si addr ,dh row ,dl col")
@@ -32,12 +32,11 @@
         (asm "call print.char")      
         (asm "jmp ps")
         (label pend)
-
         (asm "ret")
         
         (label cli)
         (asm "cli")
-        (asm "ret")
+        (ret)
 
         (data boot "boot hello")
         
