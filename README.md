@@ -6,7 +6,7 @@
 ### 编译
 提前安装 bochs 
 ```
-./configure --with-sdl --enable-disasm --enable-all-optimizations --enable-readline  --enable-debugger-gui --enable-x86-debugger --enable-a20-pin --enable-fast-function-calls --enable-debugger
+./configure --with-sdl --enable-disasm --enable-all-optimizations --enable-readline  --disable-debugger-gui --enable-x86-debugger --enable-a20-pin --enable-fast-function-calls --enable-debugger
 
 ```
 
