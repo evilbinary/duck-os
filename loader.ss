@@ -8,44 +8,18 @@
     ;     (lambda (a b)
     ;     (+ a b)))
     ($asm
-        (call cli)
         (call cls)
 
         (asm "mov dx,0x0000")
         (call set-cursor)
 
-        (asm "mov si,boot")
-        (asm "call print.string")
+        (asm "mov al,0x61")
+        (call print-char)
+        ; (asm "mov si,boot")
+        ; (asm "call print.string")
 
-        (asm "mov bx,0x200")
-        (call disk-load)
-
-        ; (asm "mov ax,0x0000")
-        ; (asm "mov es,ax")
-        (asm "mov si,0x200")
-        (asm "call print.string")
-
-        ;;跳转loader地址
-        (asm "jmp 0x200")
-        
         (asm "jmp $")
         
-        ;;磁盘读取到内存 es:bx 地址
-        (label disk-load)
-        (asm "mov ah,0x02 ;读取功能")
-        (asm "mov al,0x01 ;读取几个扇区")
-        (asm "mov cl,0x02 ;0x01 boot sector, 0x02 is first sector")
-        (asm "mov ch,0x00")
-        (asm "mov dh,0x00")
-        (asm "mov dl,0x00 ;软盘0")
-        (asm "int 0x13")
-        (asm "jc disk.error")
-        (asm "jmp dend")
-        (label disk-error)
-        (asm "mov si,disk.erro")
-        (asm "call print.string")
-        (label dend)
-        (ret)
 
         ;;设置光标位置  DH=列，DL=行
         (label set-cursor)
@@ -83,13 +57,11 @@
         (label pend)
         (ret)
         
-        ;;关中断
-        (label cli)
-        (asm "cli")
-        (ret)
+        (data boot "loader hello")
 
-        (data boot "boot hello")
-        (data disk.erro "read disk erro")
+        (asm "idt.real: dw 0x3ff")
+        (asm "  dd 0")
+        (asm "pcr0: dd 0")
         
     )
     
