@@ -27,3 +27,4 @@ runq: image
 image: build
 	dd if=build/boot bs=512 count=1 conv=notrunc of=build/boot.img
 	dd if=build/loader bs=512 count=10 seek=1 conv=notrunc of=build/boot.img
+	dd if=build/kernel bs=512 count=10 seek=9 conv=notrunc of=build/boot.img

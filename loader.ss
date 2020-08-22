@@ -19,6 +19,14 @@
         (asm "mov si,boot")
         (asm "call print.string")
         
+        ;;load kernel
+        (asm "mov bx,0x1000")
+        (call disk-load)
+
+        (asm "mov si,load.success")
+        (asm "call print.string")
+
+        ;;(asm "xchg bx,bx")
 
         ;;开启A20，才能访问1M以外的地址
         (call enable-a20)
@@ -32,6 +40,24 @@
         (asm "or al ,1")
         (asm "mov cr0,eax")       
         (asm "jmp 0x08:protect") ;;code selector 跳转保护模式
+
+
+        ;;磁盘读取到内存 es:bx 地址
+        (label disk-load)
+        (asm "mov ah,0x02 ;读取功能")
+        (asm "mov al,0x01 ;读取几个扇区")
+        (asm "mov cl,0x0a ;0x01 boot sector, 0x02 is first sector")
+        (asm "mov ch,0x00")
+        (asm "mov dh,0x00")
+        (asm "mov dl,0x00 ;软盘0")
+        (asm "int 0x13")
+        (asm "jc disk.error")
+        (asm "jmp dend")
+        (label disk-error)
+        (asm "mov si,disk.erro")
+        (asm "call print.string")
+        (label dend)
+        (ret)
 
         ;;设置光标位置  DH=列，DL=行    
         (label set-cursor)
@@ -97,18 +123,24 @@
         (asm "mov es, bx")
         (asm "mov fs, bx")        
         (asm "mov gs, bx")
- 
+
+        ;;显示保护模式P
         (asm "mov ah,0xa4")
 	    (asm "mov al,'P'")
         (asm "mov edi,0xb8000")
         (asm "add edi,(80*0+14)*3")
         (asm "mov word [ds:edi],ax")
 
+        ; (asm "xchg bx,bx")
+        ;;跳转到内核
+        (asm "jmp 0x1000")
+
         (asm "jmp $")
+    
         
-        
-        
-        (data boot "loader hello")
+        (data boot "loader kernel")
+        (data load.success " success")
+        (data disk.erro "read disk erro")
 
         ;;gdt info
         (label gdtinfo)

@@ -4,7 +4,7 @@
 
 # how much memory the emulated machine will have
 megs: 32
-#magic_break: enabled=1
+magic_break: enabled=1
 
 # filename of ROM images
 romimage: file=$BXSHARE/BIOS-bochs-latest
