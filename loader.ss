@@ -57,14 +57,14 @@
         (asm "mov si,disk.erro")
         (asm "call print.string")
         (label dend)
-        (ret)
+        (asm "ret")
 
         ;;设置光标位置  DH=列，DL=行    
         (label set-cursor)
         (asm "mov ah,0x02 ;光标位置初始化")
         (asm "mov bh,0")
         (asm "int 0x10")
-        (ret)
+        (asm "ret")
 
         ;;清除屏幕 
         (label cls)
@@ -74,14 +74,14 @@
         (asm "mov dx,0xffff  ")
         (asm "mov bh,0x0f ;属性为白字")
         (asm "int 0x10")
-        (ret)
+        (asm "ret")
 
         ;;打印一个字符 al=ascii值
         (label print-char)
         (asm "mov ah,0eh")
         (asm "mov bx,0007h")
         (asm "int 0x10")
-        (ret)
+        (asm "ret")
 
         ;;打印字符串 si=字符地址
         (label print-string)
@@ -93,7 +93,7 @@
         (asm "call print.char")      
         (asm "jmp ps")
         (label pend)
-        (ret)
+        (asm "ret")
 
         ;;开启A20
         (label enable-a20)
@@ -102,7 +102,7 @@
         (asm "or al,2")
         (asm "out 92h,al")
         (asm "pop ax")
-        (ret)
+        (asm "ret")
         
         ;;关闭A20
         (label disable-a20)
@@ -111,7 +111,7 @@
         (asm "and al,0fdh")
         (asm "out 92h,al")
         (asm "pop ax")
-        (ret)
+        (asm "ret")
 
 
         ;;保护模式32 bit代码
