@@ -18,6 +18,35 @@
         (asm "mov si,boot")
         (asm "call print.string")
 
+        ;;开启A20，才能访问1M以外的地址
+        (call enable-a20)
+
+        ;;加载 gdt info
+        (asm "lgdt [gdtinfo]")
+        ;;切换到保护模式
+        (asm "mov eax ,cr0")
+        (asm "mov [pcr0],eax")
+        (asm "or al ,1")
+        (asm "mov cr0,eax")
+        (asm "mov bx, 0x10");;data selector
+        (asm "mov ds, bx")
+        (asm "mov gs, bx")
+        (asm "jmp 0x08:protect") ;;code selector
+
+        ;;保护模式32 bit代码
+        (label protect)
+
+        (asm "xor eax,eax")
+        (asm "mov ah,0x0c")
+	    (asm "mov al,'n'")
+        (asm "mov ebx,0x0b8000")
+        (asm "add ebx,(80*0+8)*2 ")
+        (asm "mov word [gs:ebx],ax")
+        
+
+        ;(asm "mov si,boot")
+        ;(asm "call print.string")
+
         (asm "jmp $")
         
 
@@ -56,11 +85,39 @@
         (asm "jmp ps")
         (label pend)
         (ret)
+
+        ;;开启A20
+        (label enable-a20)
+        (asm "push ax")
+        (asm "in al,92h")
+        (asm "or al,2")
+        (asm "out 92h,al")
+        (asm "pop ax")
+        (ret)
+        
+        ;;关闭A20
+        (label disable-a20)
+        (asm "push ax")
+        (asm "in al,92h")
+        (asm "and al,0fdh")
+        (asm "out 92h,al")
+        (asm "pop ax")
+        (ret)
         
         (data boot "loader hello")
 
-        (asm "idt.real: dw 0x3ff")
-        (asm "  dd 0")
+        ;;gdt info
+        (label gdtinfo)
+        (asm "dw gdt_end - gdt - 1 ")
+        (asm "dd gdt       ")
+        (asm "gdt   dd 0,0") ;;gdt 0 unuse
+        ;;                 limit       base     type/s/dpl/p    limith/avl/l/db/g   baseh
+        (asm "flatcode  db 0xff, 0xff, 0, 0, 0, 10011010b,      11001111b,          0")
+        (asm "flatdata  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0")
+        (asm "flatdesc  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0")
+        (label gdt_end)
+
+
         (asm "pcr0: dd 0")
         
     )

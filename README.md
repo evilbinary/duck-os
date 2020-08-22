@@ -89,6 +89,40 @@ AL	Actual Sectors Read Count
 ```
 
 
+## 保护模式
+
+GDT（Global Descriptor Table，全局描述符表）
+LDT (Local Descriptor Table，局部描述符表)
+```
+GDT的每个表项，抽象地可以看成包含四个字段的数据结构：基地址（Base），大小（Limit），标志（Flag），访问信息（Access Byte）。
+```
+
+```
+GDT
+1st Double word:
+Bits	Function	Description
+0-15	Limit 0:15	First 16 bits in the segment limiter
+16-31	Base 0:15	First 16 bits in the base address
+
+2nd Double word:
+Bits	Function	Description
+0-7	Base 16:23	Bits 16-23 in the base address
+8-12	Type	Segment type and attributes
+13-14	Privilege Level	0 = Highest privilege (OS), 3 = Lowest privilege (User applications)
+15	Present flag	Set to 1 if segment is present
+16-19	Limit 16:19	Bits 16-19 in the segment limiter
+20-22	Attributes	Different attributes, depending on the segment type
+23	Granularity	Used together with the limiter, to determine the size of the segment
+24-31	Base 24:31	The last 24-31 bits in the base address
+
+
+The GDT Descriptor
+Bits	Function	Description
+0-15	Limit	Size of GDT in bytes
+16-47	Address	GDT's memory address
+
+```
+
 
 
 # 参考
@@ -96,6 +130,10 @@ https://en.wikipedia.org/wiki/INT_10H
 https://en.wikipedia.org/wiki/INT_13H   
 https://stanislavs.org/helppc/int_13-1.html 
 https://baike.baidu.com/item/INT10H/22788179?fr=aladdin 
+https://wiki.osdev.org/GDT_Tutorial
+http://www.osdever.net/tutorials/view/the-world-of-protected-mode
+https://files.osdev.org/mirrors/geezer/os/pm.htm
+https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 
 
 
