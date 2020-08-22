@@ -21,6 +21,9 @@ loader: loader.ss
 run: image
 	bochs -q -f ./bochsrc
 
+runq: image
+	qemu-system-i386 -fda build/boot.img
+
 image: build
 	dd if=build/boot bs=512 count=1 conv=notrunc of=build/boot.img
 	dd if=build/loader bs=512 count=10 seek=1 conv=notrunc of=build/boot.img

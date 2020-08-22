@@ -55,7 +55,7 @@
 )
 
   (define (asm-compile-exp exp name)
-    (let ((asm (format "`which  nasm` ~a.s -f bin -o ~a" name name)))
+    (let ((asm (format "`which  nasm` ~a.s -f bin -o ~a #-l ~a.lst" name name name)))
         ;;(printf "~a\n" asm)
         (system asm)
     )

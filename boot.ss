@@ -8,6 +8,7 @@
     ;     (lambda (a b)
     ;     (+ a b)))
     ($asm
+        (asm "bits 16")
         (call cli)
         (call cls)
 

@@ -8,6 +8,7 @@
     ;     (lambda (a b)
     ;     (+ a b)))
     ($asm
+        (asm "bits 16")
         (asm "org 0x200")
 
         (call cls)
@@ -17,40 +18,22 @@
 
         (asm "mov si,boot")
         (asm "call print.string")
+        
 
         ;;开启A20，才能访问1M以外的地址
         (call enable-a20)
 
         ;;加载 gdt info
         (asm "lgdt [gdtinfo]")
+        (asm "cli")
         ;;切换到保护模式
         (asm "mov eax ,cr0")
         (asm "mov [pcr0],eax")
         (asm "or al ,1")
-        (asm "mov cr0,eax")
-        (asm "mov bx, 0x10");;data selector
-        (asm "mov ds, bx")
-        (asm "mov gs, bx")
-        (asm "jmp 0x08:protect") ;;code selector
+        (asm "mov cr0,eax")       
+        (asm "jmp 0x08:protect") ;;code selector 跳转保护模式
 
-        ;;保护模式32 bit代码
-        (label protect)
-
-        (asm "xor eax,eax")
-        (asm "mov ah,0x0c")
-	    (asm "mov al,'n'")
-        (asm "mov ebx,0x0b8000")
-        (asm "add ebx,(80*0+8)*2 ")
-        (asm "mov word [gs:ebx],ax")
-        
-
-        ;(asm "mov si,boot")
-        ;(asm "call print.string")
-
-        (asm "jmp $")
-        
-
-        ;;设置光标位置  DH=列，DL=行
+        ;;设置光标位置  DH=列，DL=行    
         (label set-cursor)
         (asm "mov ah,0x02 ;光标位置初始化")
         (asm "mov bh,0")
@@ -103,6 +86,27 @@
         (asm "out 92h,al")
         (asm "pop ax")
         (ret)
+
+
+        ;;保护模式32 bit代码
+        (label protect)
+        (asm "bits 32")
+        (asm "mov bx, 0x10");;data selector
+        (asm "mov ss, bx")
+        (asm "mov ds, bx") 
+        (asm "mov es, bx")
+        (asm "mov fs, bx")        
+        (asm "mov gs, bx")
+ 
+        (asm "mov ah,0xa4")
+	    (asm "mov al,'P'")
+        (asm "mov edi,0xb8000")
+        (asm "add edi,(80*0+14)*3")
+        (asm "mov word [ds:edi],ax")
+
+        (asm "jmp $")
+        
+        
         
         (data boot "loader hello")
 
