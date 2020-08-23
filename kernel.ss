@@ -12,22 +12,22 @@
 (- a 30)
 (+ 111 2)
 
-(define (print-ch ch)
+;;打印一个字符
+(define (print-char ch)
     ($asm
-        (call print-char #x4f62))
-)
-(print-ch #x4f62)
+        (set reg0 (local 0))
+        (sar reg0 3);;cast to raw type
+        (set reg5 #xb8000)
+        (mset reg5 r0)
+        ))
 
+(print-char #x4f69)
+
+
+;; loop forever
 ($asm
     (label halt)
     (jmp halt)
-
-    ;;打印一个字符
-    (proc print-char)
-    (set reg0 (local 0))
-    (set reg5 #xb8000)
-    (mset reg5 r0)
-    (ret)
 )
    
 
