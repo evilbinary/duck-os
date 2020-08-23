@@ -16,7 +16,7 @@
     ($asm
         (call print-char #x4f62))
 )
-;;(print-ch #x4f #x62)
+(print-ch #x4f62)
 
 ($asm
     (label halt)
