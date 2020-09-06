@@ -131,22 +131,24 @@ Bits	Function	Description
 ```
 
 ## 分页
+无分页模式
+
 ```
-    无分页模式（线性地址等于物理地址）
+    线性地址等于物理地址
     CR0.PG = 0
     
 ```
 
+32bit模式
 ```
-    32bit模式
     CR0.PG = 1 and CR4.PAE = 0
     0-11:  页内偏移
     12-21: 页表 (Page Table)
     22-31: 页表目录表（Page Table Directory
 ```
+PAE模式
 
 ```
-    PAE模式
     CR0.PG = 1, CR4.PAE = 1, and IA32_EFER.LME = 0
     0-11：页内偏移
     12-20：页表（Page Table）                          PT   PTE 512个
@@ -162,11 +164,11 @@ Bits	Function	Description
 
 内存地址
 ``` 
-    0x200  init
+    0x0500  init
+    0x4000 page entry
     0x7c00 boot
-    0x1000 kernel
-
-    0xf0000 page entry
+    0x8000 kernel
+    
 ```
 
 
