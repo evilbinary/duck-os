@@ -31,15 +31,15 @@
   ))
 
 (process-args)
-(option-set 'need-primitive' #f)
+(option-set 'need-primitive #f)
 
 (if (equal? file-name "boot")
     (begin 
-        (option-set 'need-boot' #t)
+        (option-set 'need-boot #t)
         (compile-file 'boot)
     )
     (begin 
-        (option-set 'need-boot' #f)
+        (option-set 'need-boot #f)
         (compile-file file-name)
     )
 )

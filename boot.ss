@@ -8,6 +8,7 @@
     ;     (lambda (a b)
     ;     (+ a b)))
     ($asm
+        (asm "%define init_base 0x0500")
         (asm "bits 16")
         (call cli)
         (call cls)
@@ -18,7 +19,7 @@
         (asm "mov si,boot")
         (asm "call print.string")
 
-        (asm "mov bx,0x200")
+        (asm "mov bx,init_base")
         (call disk-load)
 
         ; (asm "mov ax,0x0000")
@@ -27,7 +28,7 @@
         (asm "call print.string")
 
         ;;跳转loader地址
-        (asm "jmp 0x200")
+        (asm "jmp init_base")
         
         (asm "jmp $")
         

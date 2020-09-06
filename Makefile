@@ -6,7 +6,7 @@
 
 .PHONY: build
 
-build: boot loader kernel
+build: boot init kernel
 	@echo "build success"
 
 kernel: kernel.ss
@@ -15,8 +15,8 @@ kernel: kernel.ss
 boot: boot.ss
 	./build.sh compile.ss boot
 
-loader: loader.ss
-	./build.sh compile.ss loader
+init: init.ss
+	./build.sh compile.ss init
 
 run: image
 	bochs -q -f ./bochsrc
@@ -26,5 +26,5 @@ runq: image
 
 image: build
 	dd if=build/boot bs=512 count=1 conv=notrunc of=build/boot.img
-	dd if=build/loader bs=512 count=10 seek=1 conv=notrunc of=build/boot.img
+	dd if=build/init bs=512 count=10 seek=1 conv=notrunc of=build/boot.img
 	dd if=build/kernel bs=512 count=10 seek=9 conv=notrunc of=build/boot.img

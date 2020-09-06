@@ -11,18 +11,25 @@
 ```
 
 编译
-```make ```
+
+```
+mkdir build
+make 
+```
 
 ### 运行镜像
 
-```make run```
+```
+make run
+```
 
 ## 文档
 
 ### 目录结构
 ```
 boot.ss    加载loader到内存中，跳转到loader
-loader.ss 加载内核到内存中，进入保护模式，跳转到内核
+init.ss 加载内核到内存中，进入保护模式，跳转到内核
+kernel.ss 内核文件
 ```
 
 ### BIOS 基本功能
@@ -123,6 +130,83 @@ Bits	Function	Description
 
 ```
 
+## 分页
+```
+    无分页模式（线性地址等于物理地址）
+    CR0.PG = 0
+    
+```
+
+```
+    32bit模式
+    CR0.PG = 1 and CR4.PAE = 0
+    0-11:  页内偏移
+    12-21: 页表 (Page Table)
+    22-31: 页表目录表（Page Table Directory
+```
+
+```
+    PAE模式
+    CR0.PG = 1, CR4.PAE = 1, and IA32_EFER.LME = 0
+    0-11：页内偏移
+    12-20：页表（Page Table）                          PT   PTE 512个
+    21-29：页表目录表（Page Table Directory）           PTD  PDE 512个
+    30-31：页目录指针表（Page Directory Pointer Table） PDPT PDPTE 4个
+
+    CR3=>31:30
+    PDPTE=>29:21
+    PDE=> 20:12
+    
+
+```
+
+内存地址
+``` 
+    0x200  init
+    0x7c00 boot
+    0x1000 kernel
+
+    0xf0000 page entry
+```
+
+
+
+## 任务切换
+TSS 任务状态段
+
+```
+x86 Structure
+offset	0 - 15	16 - 31
+0x00	LINK	reserved
+0x04	ESP0
+0x08	SS0	reserved
+0x0C	ESP1
+0x10	SS1	reserved
+0x14	ESP2
+0x18	SS2	reserved
+0x1C	CR3
+0x20	EIP
+0x24	EFLAGS
+0x28	EAX
+0x2C	ECX
+0x30	EDX
+0x34	EBX
+0x38	ESP
+0x3C	EBP
+0x40	ESI
+0x44	EDI
+0x48	ES	reserved
+0x4C	CS	reserved
+0x50	SS	reserved
+0x54	DS	reserved
+0x58	FS	reserved
+0x5C	GS	reserved
+0x60	LDTR	reserved
+0x64	reserved	IOPB offset
+```
+
+
+
 
 
 # 参考
@@ -134,6 +218,8 @@ https://wiki.osdev.org/GDT_Tutorial
 http://www.osdever.net/tutorials/view/the-world-of-protected-mode
 https://files.osdev.org/mirrors/geezer/os/pm.htm
 https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
+https://wiki.osdev.org/Task_State_Segment
+https://wiki.osdev.org/Memory_Map_(x86)
 
 
 
