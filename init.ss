@@ -11,6 +11,7 @@
         (asm "bits 16")
         (asm "org 0x0500")
         (asm "%define page_dir_ptr_base 0x4000") ;;4k aligned 0x4000-0x7000
+        (asm "%define mem_info 0x3000")
         (asm "%define kernel_base 0x8000")
 
 
@@ -31,6 +32,9 @@
 
         ;;(asm "xchg bx,bx")
 
+        ;;内存获取
+        (asm "call probe.memory")
+
         ;;开启A20，才能访问1M以外的地址
         (call enable-a20)
 
@@ -44,6 +48,33 @@
         (asm "mov cr0,eax")       
         (asm "jmp 0x08:protect") ;;code selector 跳转保护模式
 
+
+        ;;内存信息获取 =>mem_info 
+        (label probe-memory)
+        (asm "mov di,mem_info+4")
+        (asm "xor bp, bp")
+        (asm "mov dword[di],0")
+        (asm "xor ebx,ebx")
+        (label probe-start)
+        (asm "mov eax,0xE820")
+        (asm "mov ecx,20")
+        (asm "mov edx,0x0534D4150") ;;'SMAP'
+        (asm "int 0x15")
+        (asm "jnc probe.cont")
+        ;;failed
+        (asm "mov dword[di],0x12345")
+        (asm "mov si,prob.failed")
+        (asm "call print.string")
+        (asm "jmp probe.end")
+        
+        (label probe-cont)
+        (asm "inc bp")
+        (asm "add di,20")
+        (asm "cmp ebx,0")
+        (asm "jnz probe.start")
+        (label probe-end)
+        (asm "mov [mem_info], bp")
+        (asm "ret")
 
         ;;磁盘读取到内存 es:bx 地址
         (label disk-load)
@@ -81,13 +112,18 @@
 
         ;;打印一个字符 al=ascii值
         (label print-char)
+        (asm "push ax")
+        (asm "push bx")
         (asm "mov ah,0eh")
         (asm "mov bx,0007h")
         (asm "int 0x10")
+        (asm "pop bx")
+        (asm "pop ax")
         (asm "ret")
 
         ;;打印字符串 si=字符地址
         (label print-string)
+        (asm "push ax")
         (label ps)
         (asm "mov al,[si]")
         (asm "inc si")
@@ -96,6 +132,7 @@
         (asm "call print.char")      
         (asm "jmp ps")
         (label pend)
+        (asm "pop ax")
         (asm "ret")
 
         ;;开启A20
@@ -197,6 +234,7 @@
         (data boot "loader kernel")
         (data load.success " success")
         (data disk.erro "read disk erro")
+        (data prob.failed "prob failed")
 
         ;;gdt info
         (label gdtinfo)

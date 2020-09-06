@@ -222,8 +222,8 @@ https://files.osdev.org/mirrors/geezer/os/pm.htm
 https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 https://wiki.osdev.org/Task_State_Segment
 https://wiki.osdev.org/Memory_Map_(x86)
-
-
+http://www.uruk.org/orig-grub/mem64mb.html
+https://wiki.osdev.org/Detecting_Memory_(x86)
 
 
 
