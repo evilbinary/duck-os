@@ -50,6 +50,13 @@
 
 
         ;;内存信息获取 =>mem_info 
+        ; size
+        ; uint32_t BaseL; // base address uint64_t
+        ; uint32_t BaseH;
+        ; uint32_t LengthL; // length uint64_t
+        ; uint32_t LengthH;
+        ; uint32_t Type; // entry Type
+        ; uint32_t ACPI; // extended
         (label probe-memory)
         (asm "mov di,mem_info+4")
         (asm "xor bp, bp")
@@ -57,7 +64,7 @@
         (asm "xor ebx,ebx")
         (label probe-start)
         (asm "mov eax,0xE820")
-        (asm "mov ecx,20")
+        (asm "mov ecx,24")
         (asm "mov edx,0x0534D4150") ;;'SMAP'
         (asm "int 0x15")
         (asm "jnc probe.cont")
@@ -69,7 +76,7 @@
         
         (label probe-cont)
         (asm "inc bp")
-        (asm "add di,20")
+        (asm "add di,24")
         (asm "cmp ebx,0")
         (asm "jnz probe.start")
         (label probe-end)
