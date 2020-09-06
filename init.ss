@@ -166,7 +166,7 @@
         ;;pdpt =>page_dir_ptr_base
         (asm "mov ebx,page_dir_ptr_base+0x1000|1") ;;pdpte
         (asm "mov esi,page_dir_ptr_base") ;;pdpt_addr
-        (asm "mov ecx,10")
+        (asm "mov ecx,1")
         (label loop-pdpte)
         (asm "mov dword [esi],ebx")
         (asm "mov dword [esi+4],0")
@@ -175,7 +175,7 @@
         ;;ptd =>page_dir_ptr_base + 0x1000
         (asm "mov ebx,page_dir_ptr_base+0x2000|3") ;;pde
         (asm "mov esi,page_dir_ptr_base+0x1000")
-        (asm "mov ecx,10")
+        (asm "mov ecx,1")
         (label loop-pdt)
         (asm "mov dword [esi],ebx")
         (asm "mov dword [esi+4],0")

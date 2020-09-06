@@ -8,10 +8,6 @@
     (asm "org 0x8000")
     (asm "bits 32"))
 
-(define a 1)
-(- a 30)
-(+ 111 2)
-
 ;;打印一个字符
 (define (print-char ch)
     ($asm
@@ -22,6 +18,22 @@
         ))
 
 
+;;内存分配
+(define alloc-frame-start 0x9000)
+(define (kalloc-frame-int)
+    1
+)
+
+(define (kalloc-frame)
+    1
+)
+
+(define (kfree-frame a)
+    1
+)
+
+
+;;运行
 (print-char #x4f69)
 
 
@@ -30,6 +42,8 @@
 ($asm
     (label halt)
     (jmp halt)
+
+
 )
    
 
