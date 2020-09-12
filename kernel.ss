@@ -6,7 +6,9 @@
 
 ($asm 
     (asm "org 0x8000")
-    (asm "bits 32"))
+    (asm "bits 32")
+    ;;(asm "xchg bx,bx")
+    )
 
 ;;打印一个字符
 (define (print-char ch)
@@ -22,8 +24,8 @@
         ))
 
 ;;内存分配
-(define mem-info 0x3000)
-(define alloc-frame-start 0x9000)
+; (define mem-info 0x3000)
+; (define alloc-frame-start 0x9000)
 (define (kalloc-frame-int)
     1
 )
