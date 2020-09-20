@@ -28,7 +28,9 @@
       (trace)
       (type)
       (options)
+      (logger)
       (rename (x86) 
+          (asm $asm)
           (stext $stext)
           (sdata $sdata)
           (asm-compile-exp $asm-comile-exp)
@@ -79,6 +81,32 @@
       ))
   )
 
+  (define (asm . args)
+    (note "asm args =~a" args)
+    (cond
+      [(string? (car args))
+        (begin 
+          (apply printf  args)
+          (newline ))
+      ]
+      [(pair? (car args))
+        (cond 
+          [(= (length (car args)) 2)
+            (asm "~a ~a" (caar args) (operands-rep (cadar args)))
+           ]
+          [(= (length (car args)) 3)
+            (asm "~a ~a,~a" (caar args) (operands-rep (cadar args)) (operands-rep (caddar args)) )
+           ]
+          [else 
+            (error 'x86-os "not support" args)
+          ]
+        )
+      ]
+      [else 
+        (error 'x86-os "not support" args)
+      ]
+     )
+    )
 
 
 )
