@@ -15,7 +15,9 @@
 ;;运行
 (print-char #x4f61 4 3)
 (print-string "hello,world" 0 0)
+(print-string "gaga" 0 1)
 
+(task1)
 
 ;; loop forever
 ($asm
@@ -25,6 +27,7 @@
 ;;内存分配
 (define mem-info #x3000)
 (define alloc-frame-start #x9000)
+(define gdt-info 0x3200)
 
 ;;打印一个字符
 (define (print-char ch x y)
@@ -95,6 +98,39 @@
 (define (kfree-frame a)
     1
 )
-   
+
+;;任务
+(define (task-switch task)
+    ($asm
+        (asm "xchg bx,bx")
+        (set reg0 (local 0))
+        (sar reg0 3)
+        (set reg1 0x20)
+        (asm "mov es,ebx")
+        (asm "call far [es:eax]")
+
+        ; (asm "push word 0xa0")
+        ; (asm "push dword 0x0")
+        ; (asm "jmp far [esp]")
+        ; (asm "call 0x20:[eax]")
+        ; (asm "jmp dword 0x20:00")
+        ;;(set r0 #x20)
+        ;;(asm (ltr r0))
+    )
+)
+
+(define (task1)
+    (begin 
+        (print-string "task1" 0 5)
+        (task-switch task2)
+    )
+)
+
+(define (task2)
+    (begin 
+        (print-string "task2" 0 6)
+        (task-switch task1)
+    )
+)
 
 

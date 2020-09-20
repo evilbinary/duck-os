@@ -12,6 +12,7 @@
         (asm "org 0x0500")
         (asm "%define page_dir_ptr_base 0x4000") ;;4k aligned 0x4000-0x7000
         (asm "%define mem_info 0x3000")
+        (asm "%define gdt_info 0x3200")
         (asm "%define kernel_base 0x8000")
 
 
@@ -41,6 +42,7 @@
         ;;加载 gdt info
         (asm "lgdt [gdtinfo]")
         (asm "cli")
+        (asm "mov [gdt_info],gdt")
         ;;切换到保护模式
         (asm "mov eax ,cr0")
         (asm "mov [pcr0],eax")
@@ -86,7 +88,7 @@
         ;;磁盘读取到内存 es:bx 地址
         (label disk-load)
         (asm "mov ah,0x02 ;读取功能")
-        (asm "mov al,0x02 ;读取几个扇区")
+        (asm "mov al,0x03 ;读取几个扇区")
         (asm "mov cl,0x0a ;0x01 boot sector, 0x02 is first sector")
         (asm "mov ch,0x00")
         (asm "mov dh,0x00")
@@ -178,6 +180,9 @@
         (asm "add edi,(80*0+14)*3")
         (asm "mov word [ds:edi],ax")
         
+        ;;任务tss
+        (asm "mov ax,0x20")
+        (asm "ltr ax")
 
         ;;分页设置
         (call init-page)
@@ -252,7 +257,7 @@
         (asm "flatcode  db 0xff, 0xff, 0, 0, 0, 10011010b,      11001111b,          0") ;;0x08
         (asm "flatdata  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x10
         (asm "flatdesc  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x18
-        (asm "flattss  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0")  ;;0x20
+        (asm "flattss   db 0xff, 0xff, 0, 0, 0, 10001001b,      11001111b,          0")  ;;0x20
         (label gdt_end)
 
 
