@@ -86,7 +86,7 @@
         ;;磁盘读取到内存 es:bx 地址
         (label disk-load)
         (asm "mov ah,0x02 ;读取功能")
-        (asm "mov al,0x01 ;读取几个扇区")
+        (asm "mov al,0x02 ;读取几个扇区")
         (asm "mov cl,0x0a ;0x01 boot sector, 0x02 is first sector")
         (asm "mov ch,0x00")
         (asm "mov dh,0x00")

@@ -7,8 +7,24 @@
 ($asm 
     (asm "org 0x8000")
     (asm "bits 32")
-    ;;(asm "xchg bx,bx")
     )
+
+
+($asm (asm "xchg bx,bx"))
+
+;;运行
+(print-char #x4f69)
+;;(print-string "a")
+
+
+;; loop forever
+($asm
+    (label halt)
+    (jmp halt))
+
+;;内存分配
+(define mem-info #x3000)
+(define alloc-frame-start #x9000)
 
 ;;打印一个字符
 (define (print-char ch)
@@ -23,9 +39,36 @@
         (restore reg0)
         ))
 
-;;内存分配
-; (define mem-info 0x3000)
-; (define alloc-frame-start 0x9000)
+(define (string-length str)
+    1
+)
+
+;;字符串获取
+(define (string-ref str i)
+        ($asm 
+            (set reg0 (local 0))
+            (set reg1 (local 1))
+            (sar reg0 3);;cast to raw type
+            (sar reg1 3)
+            (+ reg0 reg1)
+            (mref reg0 reg0)
+            (land reg0 #xff)
+            (sal reg0 3)
+            (add reg0 #b000)
+        )
+      )
+
+;;打印字符串
+(define (print-string str 10)
+    (let loop2 ([x (string-length str)])
+        (if (> x 0)
+            (begin
+                (print-char (+ #x4f00 (string-ref str x) ))
+            (loop2 (- x 1) )))
+        )
+)
+
+;;function here
 (define (kalloc-frame-int)
     1
 )
@@ -36,20 +79,6 @@
 
 (define (kfree-frame a)
     1
-)
-
-
-;;运行
-(print-char #x4f69)
-
-
-
-;; loop forever
-($asm
-    (label halt)
-    (jmp halt)
-
-
 )
    
 
