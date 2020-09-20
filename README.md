@@ -27,7 +27,7 @@ make run
 
 ### 目录结构
 ```
-boot.ss    加载loader到内存中，跳转到loader
+boot.ss    加载loader到内存中，跳转到init
 init.ss 加载内核到内存中，进入保护模式，跳转到内核
 kernel.ss 内核文件
 ```

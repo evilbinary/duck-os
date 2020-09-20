@@ -10,11 +10,11 @@
     )
 
 
-($asm (asm "xchg bx,bx"))
+;;($asm (asm "xchg bx,bx"))
 
 ;;运行
-(print-char #x4f69)
-;;(print-string "a")
+(print-char #x4f61 4 3)
+(print-string "hello,world" 0 0)
 
 
 ;; loop forever
@@ -27,20 +27,35 @@
 (define alloc-frame-start #x9000)
 
 ;;打印一个字符
-(define (print-char ch)
+(define (print-char ch x y)
     ($asm
         (save reg0)
         (save reg5)
-        (set reg0 (local 0))
-        (sar reg0 3);;cast to raw type
         (set reg5 #xb8000)
+        (set reg0 (local 1)) ;;x
+        (sar reg0 2) ;;cast to raw type
+        (add reg0 reg5)
+        (set reg5 reg0)
+
+        (set reg0 (local 2)) ;;y
+        (sar reg0 3) ;;cast to raw type
+        (mul reg0 160)
+        (add reg0 reg5)
+        (set reg5 reg0)
+
+        (set reg0 (local 0)) ;;ch
+        (sar reg0 3);;cast to raw type
         (mset reg5 r0)
         (restore reg5)
         (restore reg0)
         ))
 
 (define (string-length str)
-    1
+    (let loop3 ([x 0])
+        (if (= (string-ref str x) 0)
+            x
+            (loop3 (+ x 1) ))
+        )
 )
 
 ;;字符串获取
@@ -59,16 +74,16 @@
       )
 
 ;;打印字符串
-(define (print-string str 10)
-    (let loop2 ([x (string-length str)])
-        (if (> x 0)
-            (begin
-                (print-char (+ #x4f00 (string-ref str x) ))
-            (loop2 (- x 1) )))
+(define (print-string str)
+        (let loop2 ([x 0] [len (string-length str)])
+            (if (< x len)
+                (begin
+                    (print-char (+ #x4f00 (string-ref str x)) (+ x sx) sy )
+                (loop2 (+ x 1) len )))
+            )
         )
-)
 
-;;function here
+;;内存分配
 (define (kalloc-frame-int)
     1
 )
