@@ -20,8 +20,10 @@
 
 ;; loop forever
 ($asm
-    (label halt)
-    (jmp halt))
+    (label forever)
+    (asm (nop))
+    (asm (hlt))
+    (jmp forever))
 
 ;;内存分配
 (define mem-info #x3000)
@@ -44,13 +46,13 @@
     ))
 
 ;;libs
-($include "bits.ss")
-($include "mem.ss")
-($include "print.ss")
-($include "string.ss")
+($include "../libs/bits.ss")
+($include "../libs/mem.ss")
+($include "../libs/print.ss")
+($include "../libs/string.ss")
 
 ;;kernel
-($include "gdt.ss")
-($include "kalloc.ss")
-($include "task.ss")
+($include "../kernel/gdt.ss")
+($include "../kernel/kalloc.ss")
+($include "../kernel/task.ss")
 

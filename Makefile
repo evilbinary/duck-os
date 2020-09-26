@@ -25,12 +25,12 @@ run: image
 	bochs -q -f ./bochsrc
 
 runq: image
-	qemu-system-i386 -fda build/boot.img
+	qemu-system-i386 -fda build/duck-os.img
 
 image: build
-	dd if=build/start/boot bs=512 count=1 conv=notrunc of=build/boot.img
-	dd if=build/start/init bs=512 count=10 seek=1 conv=notrunc of=build/boot.img
-	dd if=build/kernel/main bs=512 count=10 seek=9 conv=notrunc of=build/boot.img
+	dd if=build/start/boot bs=512 count=1 conv=notrunc of=build/duck-os.img
+	dd if=build/start/init bs=512 count=10 seek=1 conv=notrunc of=build/duck-os.img
+	dd if=build/kernel/main bs=512 count=10 seek=9 conv=notrunc of=build/duck-os.img
 
 
 clean:

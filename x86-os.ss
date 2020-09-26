@@ -91,6 +91,9 @@
       ]
       [(pair? (car args))
         (cond 
+          [(= (length (car args)) 1)
+            (asm "~a" (caar args))
+          ]
           [(= (length (car args)) 2)
             (asm "~a ~a" (caar args) (operands-rep (cadar args)))
            ]
