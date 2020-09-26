@@ -23,25 +23,33 @@
         (duck-compile-exp `(begin ,@code ) name)
     ))
 
-(define file-name "boot")
+(define (compile-files names)
+    (let loop ([name names])
+        (if (pair? name)
+            (begin 
+                (printf "file-name=>~a\n" (car name) )
+                (if (equal? (car name) "boot")
+                    (begin 
+                        (option-set 'need-boot #t)
+                        (compile-file 'boot)
+                    )
+                    (begin 
+                        (option-set 'need-boot #f)
+                        (compile-file (car name))
+                    )
+                )
+                (loop (cdr name))
+            ))))
+
+(define file-names '())
 
 (define (process-args)
   (if (>= (length (command-line)) 1)
-     (set! file-name (list-ref (command-line) 1))
+     (set! file-names (list-tail (command-line) 1))
   ))
 
 (process-args)
 (option-set 'need-primitive #f)
-
-(if (equal? file-name "boot")
-    (begin 
-        (option-set 'need-boot #t)
-        (compile-file 'boot)
-    )
-    (begin 
-        (option-set 'need-boot #f)
-        (compile-file file-name)
-    )
-)
+(compile-files file-names)
 
 

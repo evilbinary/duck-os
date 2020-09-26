@@ -224,6 +224,6 @@ https://wiki.osdev.org/Task_State_Segment
 https://wiki.osdev.org/Memory_Map_(x86)
 http://www.uruk.org/orig-grub/mem64mb.html
 https://wiki.osdev.org/Detecting_Memory_(x86)
-
+https://zh.wikipedia.org/wiki/%E5%85%A8%E5%B1%80%E6%8F%8F%E8%BF%B0%E7%AC%A6%E8%A1%A8
 
 

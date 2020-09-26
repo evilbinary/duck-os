@@ -257,7 +257,7 @@
         (asm "flatcode  db 0xff, 0xff, 0, 0, 0, 10011010b,      11001111b,          0") ;;0x08
         (asm "flatdata  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x10
         (asm "flatdesc  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x18
-        (asm "flattss   db 0xff, 0xff, 0, 0, 0, 10001001b,      11001111b,          0")  ;;0x20
+        (asm "flattss   db 0xff, 0xff, 0, 0, 0, 10001001b,      11001111b,          0") ;;0x20
         (label gdt_end)
 
 
