@@ -10,16 +10,16 @@ build: start main
 	@echo "build success"
 
 main: kernel/main.ss kernel/gdt.ss kernel/kalloc.ss kernel/task.ss
-	./build.sh compile.ss  kernel/main
+	./compiler/compile.sh compile.ss  kernel/main
 
 start: boot init
 	@echo build start success
 
 boot: start/boot.ss
-	./build.sh compile.ss start/boot
+	./compiler/compile.sh compile.ss start/boot
 
 init: start/init.ss
-	./build.sh compile.ss start/init
+	./compiler/compile.sh compile.ss start/init
 
 run: image
 	bochs -q -f ./bochsrc
