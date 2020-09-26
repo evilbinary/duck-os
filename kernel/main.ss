@@ -5,25 +5,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ($asm 
-    (asm (org #x8000))
-    (asm (bits 32))
+    (asm "org 0x8000")
+    (asm "bits 32")
     )
-
-;;($asm (asm "xchg bx,bx"))
 
 ;;运行
 (print-char #x4f61 4 3)
 (print-string "hello,world" 0 0)
 (print-string "gaga" 0 1)
 
-(task1)
+;;(task1)
 
 ;; loop forever
-($asm
-    (label forever)
-    (asm (nop))
-    (asm (hlt))
-    (jmp forever))
+(loop-forever)
 
 ;;内存分配
 (define mem-info #x3000)
@@ -51,6 +45,7 @@
 ($include "../libs/string.ss")
 
 ;;kernel
+($include "../kernel/asm.ss")
 ($include "../kernel/gdt.ss")
 ($include "../kernel/kalloc.ss")
 ($include "../kernel/task.ss")

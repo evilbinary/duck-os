@@ -42,7 +42,7 @@
         ;;加载 gdt info
         (asm "lgdt [gdtinfo]")
         (asm "cli")
-        (asm "mov [gdt_info],gdt")
+        (asm "mov dword [gdt_info],gdt")
         ;;切换到保护模式
         (asm "mov eax ,cr0")
         (asm "mov [pcr0],eax")
@@ -88,7 +88,7 @@
         ;;磁盘读取到内存 es:bx 地址
         (label disk-load)
         (asm "mov ah,0x02 ;读取功能")
-        (asm "mov al,0x03 ;读取几个扇区")
+        (asm "mov al,0x05 ;读取几个扇区")
         (asm "mov cl,0x0a ;0x01 boot sector, 0x02 is first sector")
         (asm "mov ch,0x00")
         (asm "mov dh,0x00")

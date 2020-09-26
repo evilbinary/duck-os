@@ -28,10 +28,10 @@
         (if (pair? name)
             (begin 
                 (printf "file-name=>~a\n" (car name) )
-                (if (equal? (car name) "boot")
+                (if (equal? (car name) "start/boot")
                     (begin 
                         (option-set 'need-boot #t)
-                        (compile-file 'boot)
+                        (compile-file (car name))
                     )
                     (begin 
                         (option-set 'need-boot #f)

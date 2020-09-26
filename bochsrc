@@ -11,7 +11,7 @@ romimage: file=$BXSHARE/BIOS-bochs-latest
 vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
 
 # what disk images will be used
-floppya: 1_44=build/duck-os.img, status=inserted
+floppya: 1_44=build/duck.img, status=inserted
 #floppyb: 1_44=floppyb.img, status=inserted
 
 # hard disk
