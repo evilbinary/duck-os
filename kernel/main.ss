@@ -5,8 +5,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ($asm 
-    (asm "org 0x8000")
-    (asm "bits 32")
+    (asm (org #x8000))
+    (asm (bits 32))
     )
 
 ;;($asm (asm "xchg bx,bx"))
@@ -29,7 +29,6 @@
 (define mem-info #x3000)
 (define alloc-frame-start #x9000)
 (define gdt-info #x3200)
-
 
 
 ;;task define
