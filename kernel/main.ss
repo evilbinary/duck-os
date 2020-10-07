@@ -10,10 +10,17 @@
     )
 
 ;;运行
-(print-char #x4f61 4 3)
-(print-string "hello,world" 0 0)
-(print-string "gaga" 0 1)
+; (print-char #x4f61 4 3)
+; (print-string "hello,world" 0 0)
+; (print-string "gaga" 0 1)
 
+;;(print-char (+ #x4f00 #x60  (mod 8 3)) 0 6)
+
+
+;;set task
+;;(gdt-set-base-limit task1 #xffffff 0x0f89)
+; (print-hex #x12345 0 6)
+(print-base 1234 10 0 6)
 ;;(task1)
 
 ;; loop forever
@@ -43,6 +50,8 @@
 ($include "../libs/mem.ss")
 ($include "../libs/print.ss")
 ($include "../libs/string.ss")
+($include "../libs/math.ss")
+($include "../libs/logic.ss")
 
 ;;kernel
 ($include "../kernel/asm.ss")

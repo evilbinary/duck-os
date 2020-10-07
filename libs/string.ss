@@ -27,3 +27,17 @@
             (add reg0 #b000)
         )
       )
+
+;;字符串设置
+(define (string-set! str i val)
+        ($asm 
+            (set reg0 (local 0))
+            (set reg1 (local 1))
+            (sar reg0 3);;cast to raw type
+            (sar reg1 3)
+            (+ reg0 reg1)
+            (set reg1 (local 2))
+            (sar reg1 3)
+            (mset reg0 reg1 byte)
+        )
+      )

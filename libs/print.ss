@@ -27,15 +27,39 @@
         (restore reg0)
         ))
 
+(define cursor-y 0)
+(define cursor-x 0)
+
 ;;打印字符串
 (define (print-string str)
         (let loop2 ([x 0] [len (string-length str)])
             (if (< x len)
                 (begin
-                    (print-char (+ #x4f00 (string-ref str x)) (+ x sx) sy )
+                    (print-char (+ #x4f00 (string-ref str x)) (+ x cursor-x) cursor-y )
                 (loop2 (+ x 1) len )))
             )
         )
 
+(define (print-string-len str l)
+        (let print-string-len-loop ([x 0] [len l])
+            (if (< x len)
+                (begin
+                    (print-char (+ #x4f00 (string-ref str x)) (+ x cursor-x) cursor-y )
+                (print-string-len-loop (+ x 1) len )))
+            )
+        )
 
+;;打印十六进制
+(define (print-hex val x y)
+    (print-base val 16 x y))
+
+(define (print-base val base)
+    (let print-loop ([i 30] [v val] [buf "0000000000000000000000000000000000"]) 
+        (if (and (> i 0) (> val 0))
+            (begin 
+                (string-set! buf i (string-ref "0123456789abcdef" (mod v base) ))
+                (print-loop (- i 1) (/ v base) buf)
+            )
+            (print-string-len buf 31)
+            )))
 
