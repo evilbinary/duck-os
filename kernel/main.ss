@@ -18,9 +18,12 @@
 
 
 ;;set task
-;;(gdt-set-base-limit task1 #xffffff 0x0f89)
+(gdt-set-base-limit task1 #xffffff 0x0f89)
 ; (print-hex #x12345 0 6)
-(print-base 1234 10 0 6)
+
+(print-hex (mem-ref #x3200) 0 0)
+
+; (print-base 1234 10 0 6)
 ;;(task1)
 
 ;; loop forever
