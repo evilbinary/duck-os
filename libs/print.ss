@@ -16,7 +16,7 @@
 
         (set reg0 (local 2)) ;;y
         (sar reg0 3) ;;cast to raw type
-        (mul reg0 160)
+        (mul reg0 1280)
         (add reg0 reg5)
         (set reg5 reg0)
 
@@ -40,11 +40,11 @@
             )
         )
 
-(define (print-string-len str l)
+(define (print-string-len str l sx sy)
         (let print-string-len-loop ([x 0] [len l])
             (if (< x len)
                 (begin
-                    (print-char (+ #x4f00 (string-ref str x)) (+ x cursor-x) cursor-y )
+                    (print-char (+ #x4f00 (string-ref str x)) (+ x sx) sy )
                 (print-string-len-loop (+ x 1) len )))
             )
         )
@@ -53,13 +53,13 @@
 (define (print-hex val x y)
     (print-base val 16 x y))
 
-(define (print-base val base)
-    (let print-loop ([i 30] [v val] [buf "0000000000000000000000000000000000"]) 
+(define (print-base val base x y)
+    (let print-loop ([i 8] [v val] [buf "0000000000000000000000000000000000"]) 
         (if (and (> i 0) (> val 0))
             (begin 
                 (string-set! buf i (string-ref "0123456789abcdef" (mod v base) ))
                 (print-loop (- i 1) (/ v base) buf)
             )
-            (print-string-len buf 31)
+            (print-string-len buf 9 x y)
             )))
 
