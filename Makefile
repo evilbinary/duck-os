@@ -12,7 +12,7 @@ test:
 	./compiler/compile.sh compile.ss  tests/test-libs
 
 
-main: kernel/main.ss kernel/gdt.ss kernel/kalloc.ss kernel/task.ss
+main: kernel/main.ss kernel/asm.ss kernel/kalloc.ss kernel/task.ss
 	./compiler/compile.sh compile.ss  kernel/main
 
 start: boot init

@@ -207,7 +207,8 @@ offset	0 - 15	16 - 31
 0x64	reserved	IOPB offset
 ```
 
-
+save esp ,eip
+restore esp ,eip
 
 
 

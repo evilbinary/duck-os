@@ -182,7 +182,7 @@
         
         ;;任务tss
         (asm "mov ax,0x20")
-        (asm "ltr ax")
+        ;;(asm "ltr ax")
 
         ;;分页设置
         (call init-page)
@@ -253,11 +253,11 @@
         (asm "dw gdt_end - gdt - 1 ")
         (asm "dd gdt       ")
         (asm "gdt   dd 0,0") ;;gdt 0 unuse
-        ;;                 limit       base     type/s/dpl/p    limith/avl/l/db/g   baseh
-        (asm "flatcode  db 0xff, 0xff, 0, 0, 0, 10011010b,      11001111b,          0") ;;0x08
-        (asm "flatdata  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x10
-        (asm "flatdesc  db 0xff, 0xff, 0, 0, 0, 10010010b,      11001111b,          0") ;;0x18
-        (asm "flattss   db 0xff, 0xff, 0, 0, 0, 10001001b,      11001111b,          0") ;;0x20
+        ;;                 limit       base       basel type/s/dpl/p    limith /avl/l/db/g   baseh
+        (asm "flatcode  db 0xff, 0xff, 0x00, 0x00, 0x00, 10011010b,      11001111b,          0x00") ;;0x08
+        (asm "flatdata  db 0xff, 0xff, 0x00, 0x00, 0x00, 10010010b,      11001111b,          0x00") ;;0x10
+        (asm "flatdesc  db 0xff, 0xff, 0x00, 0x00, 0x00, 10010010b,      11001111b,          0x00") ;;0x18
+        (asm "flattss   db 0xff, 0xff, 0x00, 0x00, 0x00, 10001001b,      11001111b,          0x00") ;;0x20
         (label gdt_end)
 
 

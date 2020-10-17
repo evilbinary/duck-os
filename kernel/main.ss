@@ -14,19 +14,23 @@
 ; (print-string "hello,world" 0 0)
 ; (print-string "gaga" 0 1)
 
+;;打印
 ;;(print-char (+ #x4f00 #x60  (mod 8 3)) 0 6)
-
-
-;;set task
-; (gdt-set-base-limit task1 #xffffff 0x0f89)
-; (print-hex #x12345 0 6)
-
-
 ;;(print-hex (mem-ref #x3000) 6 2)
-(print-mem-info)
-
 ; (print-base 1234 10 0 6)
-;;(task1)
+;;(print-mem-info)
+
+
+;;任务
+(gdt-set-base-limit #x3400 #xffffff #x89)
+;;(print-hex &task1 40 10)
+
+($data tcb-task0 0 32)
+($data tcb-task1 0 32)
+(mem-set &tcb-task0 &task0)
+(mem-set &tcb-task1 &task1)
+
+(task-init &tcb-task0)
 
 ;; loop forever
 (loop-forever)
@@ -52,16 +56,20 @@
 
 
 ;;task define
-(define (task1)
+(define (task0)
     (begin 
-        (print-string "task1" 0 5)
-        (task-switch task2)
+        ($asm (label tt0))
+        (print-string "task0" 0 5)
+        (task-switch &tcb-task1)
+        ($asm (jmp tt0))
     ))
 
-(define (task2)
+(define (task1)
     (begin 
-        (print-string "task2" 0 6)
-        (task-switch task1)
+        ($asm (label tt1))
+        (print-string "task1" 0 5)
+        (task-switch &tcb-task2)
+        ($asm (jmp tt1))
     ))
 
 ;;libs
@@ -74,7 +82,6 @@
 
 ;;kernel
 ($include "../kernel/asm.ss")
-($include "../kernel/gdt.ss")
 ($include "../kernel/kalloc.ss")
 ($include "../kernel/task.ss")
 
