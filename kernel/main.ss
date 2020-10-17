@@ -23,12 +23,14 @@
 
 ;;任务
 (gdt-set-base-limit #x3400 #xffffff #x89)
-;;(print-hex &task1 40 10)
 
 ($data tcb-task0 0 32)
 ($data tcb-task1 0 32)
-(mem-set &tcb-task0 &task0)
-(mem-set &tcb-task1 &task1)
+
+; (print-hex &task1 40 10)
+
+(mem-set &tcb-task0 &tt0)
+(mem-set &tcb-task1 &tt1)
 
 (task-init &tcb-task0)
 
@@ -60,16 +62,16 @@
     (begin 
         ($asm (label tt0))
         (print-string "task0" 0 5)
-        (task-switch &tcb-task1)
-        ($asm (jmp tt0))
+        (mem-set &next-taskp &tcb-task1)
+        ($asm (jmp switch-to))
     ))
 
 (define (task1)
     (begin 
         ($asm (label tt1))
-        (print-string "task1" 0 5)
-        (task-switch &tcb-task2)
-        ($asm (jmp tt1))
+        (print-string "task1" 0 10)
+        (mem-set &next-taskp &tcb-task0)
+        ($asm (jmp switch-to))
     ))
 
 ;;libs

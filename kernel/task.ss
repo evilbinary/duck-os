@@ -12,3 +12,4 @@
 ;;task 1 esp 
 ;;task 2 id
 (define current-taskp 0)
+(define next-taskp 0)

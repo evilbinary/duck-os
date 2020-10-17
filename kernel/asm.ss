@@ -32,44 +32,46 @@
 
         (asm "mov word [esi+0x00],0x3400");;link
 
-        (asm "xchg bx,bx")
-        (asm "mov ebx,task0")
         (set reg0 (local 0))
         (sar reg0 3)
+        ;;(asm "xchg bx,bx")
+
         (asm "mov [current.taskp],eax");;set current task ptr
         (asm "mov edi,eax")
         (asm "mov eax,[edi]") ;;get tcb eip
         (asm "mov [esi+0x20],eax");;eip
-        (asm "sti")
-         
+        ;;(asm "sti")
+        ;;(asm "xchg bx,bx")   
         (asm "jmp 0x20:0")
         
     )
 )
 
-(define (task-switch tcb)
-    ($asm 
+($asm 
+    (label switch-to)
+
+        ;;(asm "cli")
         (asm "mov esi,0x3400")
         (asm "mov edi,[current.taskp]");;get current task info
         (asm "mov eax,[esi+0x20]");;get eip
-        (asm "mov [edi],eax");;set eip
+        (asm "mov [edi],eax");;save eip into current task
         (asm "mov eax,[esi+0x38]") ;;get esp
-        (asm "mov [edi+4],eax") ;;set esp
+        (asm "mov [edi+4],eax") ;;save esp into current task
 
-        (set reg0 (local 0))
-        (sar reg0 3)
-        (asm "mov [current.taskp],eax");;set current task ptr
-        (asm "mov edi,eax")
-        (asm "mov eax,[edi]") ;;get new eip
-        (asm "mov [esi+0x20],eax")
+
+        (asm "mov edi,[next.taskp]")
+        (asm "mov [current.taskp],edi");;set current task ptr
 
         (asm "mov eax,[edi+4]") ;;get new esp
         (asm "mov [esi+0x38],eax")
 
-        (asm "xchg bx,bx")
-        (asm "jmp eax")
+        (asm "mov eax,[edi]") ;;get new eip
+        (asm "mov [esi+0x20],eax")
 
-    )
+        ;;(asm "sti")
+        
+        ;;(asm "xchg bx,bx")    
+        (asm "jmp eax")
 )
 
 
