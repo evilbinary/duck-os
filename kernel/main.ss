@@ -26,11 +26,12 @@
 
 ($data tcb-task0 0 32)
 ($data tcb-task1 0 32)
-
+($data tcb-task2 0 32)
 ; (print-hex &task1 40 10)
 
 (mem-set &tcb-task0 &tt0)
 (mem-set &tcb-task1 &tt1)
+(mem-set &tcb-task2 &tt2)
 
 (task-init &tcb-task0)
 
@@ -70,9 +71,18 @@
     (begin 
         ($asm (label tt1))
         (print-string "task1" 0 10)
+        (mem-set &next-taskp &tcb-task2)
+        ($asm (jmp switch-to))
+    ))
+
+(define (task2)
+    (begin 
+        ($asm (label tt2))
+        (print-string "task2" 0 10)
         (mem-set &next-taskp &tcb-task0)
         ($asm (jmp switch-to))
     ))
+
 
 ;;libs
 ($include "../libs/bits.ss")
