@@ -23,9 +23,9 @@
   )
 
 (import
-    (common)
-    (match)
-    (trace)
+    (common common)
+    (common match)
+    (common trace)
     (x86-os)
     )
 )

@@ -24,12 +24,12 @@
 
   (import 
       (rename (scheme) (div div2) )
-      (common)
-      (trace)
-      (type)
-      (options)
-      (logger)
-      (rename (x86) 
+      (common common)
+      (common trace)
+      (duck type)
+      (duck options)
+      (common logger)
+      (rename (arch x86) 
           (asm $asm)
           (stext $stext)
           (sdata $sdata)

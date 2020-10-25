@@ -27,7 +27,6 @@
 ($data tcb-task0 0 32)
 ($data tcb-task1 0 32)
 ($data tcb-task2 0 32)
-; (print-hex &task1 40 10)
 
 (mem-set &tcb-task0 &tt0)
 (mem-set &tcb-task1 &tt1)
@@ -78,7 +77,10 @@
 (define (task2)
     (begin 
         ($asm (label tt2))
+        ($asm (asm "xchg bx,bx") )
+        (print-hex &mem-info 40 10)
         (print-string "task2" 0 10)
+        (+ 1 2)
         (mem-set &next-taskp &tcb-task0)
         ($asm (jmp switch-to))
     ))

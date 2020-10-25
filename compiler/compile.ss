@@ -3,8 +3,8 @@
 ;作者:evilbinary on 12/24/16.
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(import (scheme) (duck)
-        (options)
+(import (scheme) (duck duck)
+        (duck options)
         (x86-os))
 
 (define (read-file name)
