@@ -5,7 +5,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (import (scheme) (duck duck)
         (duck options)
-        (x86-os))
+        (arch x86-os))
 
 (define (read-file name)
     (let ((p (open-input-file name)))

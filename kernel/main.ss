@@ -77,10 +77,7 @@
 (define (task2)
     (begin 
         ($asm (label tt2))
-        ($asm (asm "xchg bx,bx") )
-        (print-hex &mem-info 40 10)
         (print-string "task2" 0 10)
-        (+ 1 2)
         (mem-set &next-taskp &tcb-task0)
         ($asm (jmp switch-to))
     ))

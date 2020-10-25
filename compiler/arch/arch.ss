@@ -4,7 +4,7 @@
 ;邮箱:rootdebug@163.com
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(library (arch)
+(library (arch arch)
   (export 
     ;;regs
     reg0 reg1 reg2 reg3 reg4 reg5 reg6 reg7 regs regs-map
@@ -26,6 +26,6 @@
     (common common)
     (common match)
     (common trace)
-    (x86-os)
+    (arch x86-os)
     )
 )
